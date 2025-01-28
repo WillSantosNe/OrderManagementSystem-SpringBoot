@@ -22,7 +22,7 @@ public class Product {
 	private Double price;
 	
 	@OneToMany(mappedBy = "product")
-     private List<OrderItem> items;
+    private List<OrderItem> items;
 
 	public Product() {
 

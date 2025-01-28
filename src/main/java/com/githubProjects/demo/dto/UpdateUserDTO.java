@@ -8,7 +8,7 @@ import com.githubProjects.demo.entities.User;
  * excluding unalterable fields such as password.
  */
 public class UpdateUserDTO {
-	private String nome;
+	private String name;
 	private String email;
 	// Do not include 'password' if it is not alterable via common update.
 	
@@ -17,16 +17,16 @@ public class UpdateUserDTO {
 	}
 	
 	public UpdateUserDTO(User user) {
-		this.nome = user.getName();
+		this.name = user.getName();
 		this.email = user.getEmail();
 	}
 
-	public String getNome() {
-		return nome;
+	public String getname() {
+		return name;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setname(String name) {
+		this.name = name;
 	}
 
 	public String getEmail() {
