@@ -23,19 +23,57 @@ public class Order {
 	private Long id;
 	private OrderStatus status;
 	private Instant orderDate;
-	
+
 	@ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-	
+	@JoinColumn(name = "user_id")
+	private User user;
+
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItem> items;
-	
+	private List<OrderItem> items;
+
 	public Order() {
 
 	}
 
-	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public OrderStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(OrderStatus status) {
+		this.status = status;
+	}
+
+	public Instant getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(Instant orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public List<OrderItem> getItems() {
+		return items;
+	}
+
+	public void setItems(List<OrderItem> items) {
+		this.items = items;
+	}
 
 	@Override
 	public int hashCode() {
