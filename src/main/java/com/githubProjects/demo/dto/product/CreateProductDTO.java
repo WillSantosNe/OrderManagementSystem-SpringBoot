@@ -1,31 +1,24 @@
-package com.githubProjects.demo.dto;
+package com.githubProjects.demo.dto.product;
 
 import com.githubProjects.demo.entities.Product;
 
-/*DTO to bring product data*/
-public class ProductResponseDTO {
-	private Long id;
+/**
+ * A DTO (Data Transfer Object) class for creating a new product. This class
+ * includes all the necessary fields needed to create a product.
+ */
+public class CreateProductDTO {
 	private String name;
 	private String description;
 	private Double price;
 
-	public ProductResponseDTO() {
+	public CreateProductDTO() {
 
 	}
-	
-	public ProductResponseDTO(Product product) {
-		this.id = product.getId();
+
+	public CreateProductDTO(Product product) {
 		this.name = product.getName();
 		this.description = product.getDescription();
 		this.price = product.getPrice();
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -51,6 +44,5 @@ public class ProductResponseDTO {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-	
-	
+
 }

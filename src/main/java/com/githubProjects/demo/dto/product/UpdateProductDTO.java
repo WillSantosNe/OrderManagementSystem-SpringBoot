@@ -1,21 +1,20 @@
-package com.githubProjects.demo.dto;
+package com.githubProjects.demo.dto.product;
 
 import com.githubProjects.demo.entities.Product;
 
 /**
- * A DTO (Data Transfer Object) class for creating a new product. This class
- * includes all the necessary fields needed to create a product.
+ * A DTO (Data Transfer Object) class for updating an existing product.
  */
-public class CreateProductDTO {
+public class UpdateProductDTO {
 	private String name;
 	private String description;
 	private Double price;
 
-	public CreateProductDTO() {
+	public UpdateProductDTO() {
 
 	}
 
-	public CreateProductDTO(Product product) {
+	public UpdateProductDTO(Product product) {
 		this.name = product.getName();
 		this.description = product.getDescription();
 		this.price = product.getPrice();

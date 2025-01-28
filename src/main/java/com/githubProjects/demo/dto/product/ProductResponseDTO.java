@@ -1,23 +1,31 @@
-package com.githubProjects.demo.dto;
+package com.githubProjects.demo.dto.product;
 
 import com.githubProjects.demo.entities.Product;
 
-/**
- * A DTO (Data Transfer Object) class for updating an existing product.
- */
-public class UpdateProductDTO {
+/*DTO to bring product data*/
+public class ProductResponseDTO {
+	private Long id;
 	private String name;
 	private String description;
 	private Double price;
 
-	public UpdateProductDTO() {
+	public ProductResponseDTO() {
 
 	}
-
-	public UpdateProductDTO(Product product) {
+	
+	public ProductResponseDTO(Product product) {
+		this.id = product.getId();
 		this.name = product.getName();
 		this.description = product.getDescription();
 		this.price = product.getPrice();
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -43,5 +51,6 @@ public class UpdateProductDTO {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-
+	
+	
 }

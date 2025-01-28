@@ -1,4 +1,4 @@
-package com.githubProjects.demo.dto;
+package com.githubProjects.demo.dto.user;
 
 import com.githubProjects.demo.entities.User;
 
