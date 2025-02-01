@@ -10,6 +10,6 @@ public class OrderService {
 	@Autowired
 	private OrderRepository orderRepository;
 	
-	//@Transactional(readOnly = true)
+	
 	
 }

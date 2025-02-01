@@ -9,7 +9,7 @@ import com.githubProjects.demo.entities.User;
  * This class includes all the necessary fields needed to create a user.
  */
 public class CreateUserDTO {
-	private String nome;
+	private String name;
 	private String email;
 	private String password;
 	
@@ -22,12 +22,12 @@ public class CreateUserDTO {
 		BeanUtils.copyProperties(user, this);
 	}
 
-	public String getNome() {
-		return nome;
+	public String getName() {
+		return name;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setname(String name) {
+		this.name = name;
 	}
 
 	public String getEmail() {
