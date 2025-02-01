@@ -21,7 +21,7 @@ public class UpdateUserDTO {
 		this.email = user.getEmail();
 	}
 
-	public String getname() {
+	public String getName() {
 		return name;
 	}
 
