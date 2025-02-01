@@ -85,4 +85,18 @@ public class UserService {
 		}
 	}
 
+	/**
+	 * Deletes a user by ID.
+	 *
+	 * @param id The ID of the user to delete.
+	 * @throws ResourceNotFoundException if the user with the specified ID does not
+	 *                                   exist.
+	 */
+	public void delete(Long id) {
+		if (!userRepository.existsById(id)) {
+			throw new EntityNotFoundException("User not found with ID: " + id);
+		}
+		userRepository.deleteById(id);
+	}
+
 }
