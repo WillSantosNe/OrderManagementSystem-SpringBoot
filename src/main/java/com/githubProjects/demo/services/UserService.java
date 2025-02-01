@@ -1,5 +1,8 @@
 package com.githubProjects.demo.services;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,30 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	/**
+	 * Retrieves a user by ID.
+	 * 
+	 * @param id The ID of the user to retrieve.
+	 * @return A UserResponseDTO with the user's information.
+	 * @throws ResourceNotFoundException if the user with the specified ID is not
+	 *                                   found.
+	 */
+	public UserResponseDTO findById(Long id) {
+		User user = userRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + id));
+		return new UserResponseDTO(user);
+	}
+
+	/**
+	 * Retrieves all users.
+	 * 
+	 * @return A list of UserResponseDTOs containing all users.
+	 */
+	public List<UserResponseDTO> findAll() {
+		List<User> users = userRepository.findAll();
+		return users.stream().map(UserResponseDTO::new).collect(Collectors.toList());
+	}
 
 	/**
 	 * Creates a new user in the database.
@@ -57,4 +84,5 @@ public class UserService {
 			throw new RuntimeException("User not found with ID: " + id);
 		}
 	}
+
 }
