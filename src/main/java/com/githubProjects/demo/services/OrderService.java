@@ -1,15 +1,90 @@
 package com.githubProjects.demo.services;
 
+import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
 
+import com.githubProjects.demo.dto.order.CreateOrderDTO;
+import com.githubProjects.demo.dto.order.OrderResponseDTO;
+import com.githubProjects.demo.entities.Order;
+import com.githubProjects.demo.entities.OrderItem;
+import com.githubProjects.demo.entities.OrderStatus;
+import com.githubProjects.demo.entities.Product;
+import com.githubProjects.demo.entities.User;
 import com.githubProjects.demo.repositories.OrderRepository;
+import com.githubProjects.demo.repositories.ProductRepository;
+import com.githubProjects.demo.repositories.UserRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
+@Service
 public class OrderService {
 
 	@Autowired
 	private OrderRepository orderRepository;
-	
-	
-	
+
+	@Autowired
+	private UserRepository userRepository;
+
+	@Autowired
+	private ProductRepository productRepository;
+
+	/**
+	 * Creates a new order.
+	 *
+	 * @param dto DTO containing user ID and order items.
+	 * @return OrderResponseDTO containing order details.
+	 * @throws ResourceNotFoundException if user or any product does not exist.
+	 */
+	public OrderResponseDTO insert(CreateOrderDTO dto) {
+		// Retrieve user by ID, throw an exception if not found
+		User user = userRepository.findById(dto.getUserId())
+				.orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + dto.getUserId()));
+
+		// Create a new order and set initial properties
+		Order order = new Order();
+		order.setUser(user);
+		order.setStatus(OrderStatus.PENDING);
+		order.setOrderDate(Instant.now());
+
+		// Convert DTO items to order items and add to order
+		List<OrderItem> orderItems = dto.getItems().stream().map(itemDto -> {
+
+			// Retrieve product by ID, throw an exception if not found
+			Product product = productRepository.findById(itemDto.getProductId()).orElseThrow(
+					() -> new EntityNotFoundException("Product not found with ID: " + itemDto.getProductId()));
+
+			// Validate quantity
+			if (itemDto.getQuantity() <= 0) {
+				throw new IllegalArgumentException("Quantity must be greater than zero.");
+			}
+
+			// Calculate subtotal and create order item
+			Double subtotal = calculateSubtotal(product, itemDto.getQuantity());
+			return new OrderItem(order, product, itemDto.getQuantity(), subtotal);
+		}).collect(Collectors.toList());
+
+		// Set order items to the order
+		order.setItems(orderItems);
+
+		// Save the order and return response DTO
+		Order savedOrder = orderRepository.save(order);
+
+		return new OrderResponseDTO(savedOrder);
+	}
+
+	/**
+	 * Calculates the subtotal for an order item.
+	 *
+	 * @param product  The product being ordered.
+	 * @param quantity The quantity of the product.
+	 * @return The subtotal for the order item.
+	 */
+	private Double calculateSubtotal(Product product, Integer quantity) {
+		return product.getPrice() * quantity;
+	}
+
 }
