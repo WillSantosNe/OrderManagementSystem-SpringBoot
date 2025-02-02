@@ -15,6 +15,7 @@ import com.githubProjects.demo.entities.OrderItem;
 import com.githubProjects.demo.entities.OrderStatus;
 import com.githubProjects.demo.entities.Product;
 import com.githubProjects.demo.entities.User;
+import com.githubProjects.demo.exceptions.ResourceNotFoundException;
 import com.githubProjects.demo.repositories.OrderRepository;
 import com.githubProjects.demo.repositories.ProductRepository;
 import com.githubProjects.demo.repositories.UserRepository;
@@ -32,6 +33,31 @@ public class OrderService {
 
 	@Autowired
 	private ProductRepository productRepository;
+	
+	
+	
+	 /**
+     * Retrieves an order by ID.
+     *
+     * @param id The ID of the order to retrieve.
+     * @return OrderResponseDTO containing order details.
+     * @throws ResourceNotFoundException if the order is not found.
+     */
+    public OrderResponseDTO findById(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found with ID: " + id));
+        return new OrderResponseDTO(order);
+    }
+
+    /**
+     * Retrieves all orders.
+     *
+     * @return List of OrderResponseDTO containing all orders.
+     */
+    public List<OrderResponseDTO> findAll() {
+        List<Order> orders = orderRepository.findAll();
+        return orders.stream().map(OrderResponseDTO::new).collect(Collectors.toList());
+    }
 
 	/**
 	 * Creates a new order.
@@ -113,6 +139,19 @@ public class OrderService {
 		
 		return new OrderResponseDTO(updatedOrder);
 	}
+	
+	/**
+     * Deletes an order by ID.
+     *
+     * @param id The ID of the order to delete.
+     * @throws ResourceNotFoundException if the order does not exist.
+     */
+    public void delete(Long id) {
+        if (!orderRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Order not found with ID: " + id);
+        }
+        orderRepository.deleteById(id);
+    }
 
 	/**
 	 * Calculates the subtotal for an order item.
