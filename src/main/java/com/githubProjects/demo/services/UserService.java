@@ -30,6 +30,7 @@ public class UserService {
 	 * @throws ResourceNotFoundException if the user with the specified ID is not
 	 *                                   found.
 	 */
+	@Transactional
 	public UserResponseDTO findById(Long id) {
 		User user = userRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + id));
@@ -41,6 +42,7 @@ public class UserService {
 	 * 
 	 * @return A list of UserResponseDTOs containing all users.
 	 */
+	@Transactional
 	public List<UserResponseDTO> findAll() {
 		List<User> users = userRepository.findAll();
 		return users.stream().map(UserResponseDTO::new).collect(Collectors.toList());

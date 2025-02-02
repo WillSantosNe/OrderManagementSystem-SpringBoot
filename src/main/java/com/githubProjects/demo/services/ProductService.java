@@ -14,6 +14,7 @@ import com.githubProjects.demo.exceptions.ResourceNotFoundException;
 import com.githubProjects.demo.repositories.ProductRepository;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 
 @Service
 public class ProductService {
@@ -77,6 +78,7 @@ public class ProductService {
 	 * @throws ResourceNotFoundException if the product with the specified ID is not
 	 *                                   found.
 	 */
+	@Transactional
 	public ProductResponseDTO findById(Long id) {
 		Product product = productRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Product not found with ID: " + id));
@@ -88,6 +90,7 @@ public class ProductService {
 	 * 
 	 * @return A list of ProductResponseDTOs containing all products.
 	 */
+	@Transactional
 	public List<ProductResponseDTO> findAll() {
 		List<Product> products = productRepository.findAll();
 		return products.stream().map(ProductResponseDTO::new).collect(Collectors.toList());

@@ -29,7 +29,7 @@ public class OrderResponseDTO {
 		this.id = order.getId();
 		this.userId = order.getUser().getId();
 		this.items = order.getItems().stream().map(OrderItemResponseDTO::new).toList();
-		this.total = order.getItems().stream().mapToDouble(x -> x.getSubtotal() * x.getQuantity()).sum();
+		this.total = order.getItems().stream().mapToDouble(x -> x.getSubtotal()).sum();
 		this.status = order.getStatus();
 		this.orderDate = order.getOrderDate();
 	}

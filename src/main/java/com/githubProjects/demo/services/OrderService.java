@@ -20,6 +20,8 @@ import com.githubProjects.demo.repositories.OrderRepository;
 import com.githubProjects.demo.repositories.ProductRepository;
 import com.githubProjects.demo.repositories.UserRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class OrderService {
 
@@ -39,6 +41,7 @@ public class OrderService {
 	 * @return OrderResponseDTO containing order details.
 	 * @throws ResourceNotFoundException if the order is not found.
 	 */
+	@Transactional
 	public OrderResponseDTO findById(Long id) {
 		Order order = orderRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Order not found with ID: " + id));
@@ -50,6 +53,7 @@ public class OrderService {
 	 *
 	 * @return List of OrderResponseDTO containing all orders.
 	 */
+	@Transactional
 	public List<OrderResponseDTO> findAll() {
 		List<Order> orders = orderRepository.findAll();
 		return orders.stream().map(OrderResponseDTO::new).collect(Collectors.toList());
