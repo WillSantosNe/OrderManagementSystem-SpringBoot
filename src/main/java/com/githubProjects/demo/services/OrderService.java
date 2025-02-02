@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.githubProjects.demo.dto.order.CreateOrderDTO;
 import com.githubProjects.demo.dto.order.OrderResponseDTO;
+import com.githubProjects.demo.dto.order.UpdateOrderDTO;
 import com.githubProjects.demo.entities.Order;
 import com.githubProjects.demo.entities.OrderItem;
 import com.githubProjects.demo.entities.OrderStatus;
@@ -77,6 +78,45 @@ public class OrderService {
 	}
 
 	/**
+	 * Updates an existing order.
+	 *
+	 * @param id  The ID of the order to update.
+	 * @param dto DTO containing updated order details.
+	 * @return OrderResponseDTO containing updated order details.
+	 * @throws ResourceNotFoundException if the order is not found.
+	 */
+	public OrderResponseDTO update(Long id, UpdateOrderDTO dto) {
+		Order order = orderRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Order not found with ID: " + id));
+
+		if (dto.getStatus() != null) {
+			order.setStatus(dto.getStatus());
+		}
+
+		if (dto.getItems() != null) {
+			List<OrderItem> updatedItems = dto.getItems().stream().map(itemDto -> {
+				Product product = productRepository.findById(itemDto.getProductId()).orElseThrow(
+						() -> new EntityNotFoundException("Product not found with ID: " + itemDto.getProductId()));
+
+				if (itemDto.getQuantity() <= 0) {
+					throw new IllegalArgumentException("Quantity must be greater than zero.");
+				}
+
+				Double subtotal = calculateSubtotal(product, itemDto.getQuantity());
+				return new OrderItem(order, product, itemDto.getQuantity(), subtotal);
+			}).collect(Collectors.toList());
+
+			order.setItems(updatedItems);
+		}
+
+		Order updatedOrder = orderRepository.save(order);
+		
+		return new OrderResponseDTO(updatedOrder);
+	}
+	
+	
+
+	/**
 	 * Calculates the subtotal for an order item.
 	 *
 	 * @param product  The product being ordered.
@@ -86,5 +126,6 @@ public class OrderService {
 	private Double calculateSubtotal(Product product, Integer quantity) {
 		return product.getPrice() * quantity;
 	}
+	
 
 }
