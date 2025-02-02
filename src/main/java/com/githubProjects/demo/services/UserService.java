@@ -14,6 +14,7 @@ import com.githubProjects.demo.exceptions.ResourceNotFoundException;
 import com.githubProjects.demo.repositories.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 
 @Service
 public class UserService {
@@ -84,6 +85,7 @@ public class UserService {
 	 *         email).
 	 * @throws RuntimeException if the user with the specified ID is not found.
 	 */
+	@Transactional
 	public UserResponseDTO update(Long id, UpdateUserDTO dto) {
 		try {
 			User user = userRepository.getReferenceById(id);
