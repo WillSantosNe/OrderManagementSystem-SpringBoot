@@ -34,7 +34,6 @@ Demonstrar habilidades em **Java**, **Spring Boot**, **arquitetura em camadas**,
 
 ### 6. Documentação
 - **README** (este arquivo), explicando o projeto e seu funcionamento.  
-- **Swagger/OpenAPI** (opcional), para documentar e testar endpoints de forma interativa.
 
 ---
 
