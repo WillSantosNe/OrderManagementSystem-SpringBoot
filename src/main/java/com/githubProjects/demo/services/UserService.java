@@ -10,6 +10,7 @@ import com.githubProjects.demo.dto.user.CreateUserDTO;
 import com.githubProjects.demo.dto.user.UpdateUserDTO;
 import com.githubProjects.demo.dto.user.UserResponseDTO;
 import com.githubProjects.demo.entities.User;
+import com.githubProjects.demo.exceptions.ResourceNotFoundException;
 import com.githubProjects.demo.repositories.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -30,7 +31,7 @@ public class UserService {
 	 */
 	public UserResponseDTO findById(Long id) {
 		User user = userRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + id));
+				.orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + id));
 		return new UserResponseDTO(user);
 	}
 
@@ -94,7 +95,7 @@ public class UserService {
 	 */
 	public void delete(Long id) {
 		if (!userRepository.existsById(id)) {
-			throw new EntityNotFoundException("User not found with ID: " + id);
+			throw new ResourceNotFoundException("User not found with ID: " + id);
 		}
 		userRepository.deleteById(id);
 	}

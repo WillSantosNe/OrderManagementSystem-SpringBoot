@@ -10,6 +10,7 @@ import com.githubProjects.demo.dto.product.CreateProductDTO;
 import com.githubProjects.demo.dto.product.ProductResponseDTO;
 import com.githubProjects.demo.dto.product.UpdateProductDTO;
 import com.githubProjects.demo.entities.Product;
+import com.githubProjects.demo.exceptions.ResourceNotFoundException;
 import com.githubProjects.demo.repositories.ProductRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -52,7 +53,7 @@ public class ProductService {
 	 */
 	public ProductResponseDTO update(Long id, UpdateProductDTO dto) {
 		Product product = productRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException("Product not found with ID: " + id));
+				.orElseThrow(() -> new ResourceNotFoundException("Product not found with ID: " + id));
 
 		if (dto.getName() != null)
 			product.setName(dto.getName());
@@ -78,7 +79,7 @@ public class ProductService {
 	 */
 	public ProductResponseDTO findById(Long id) {
 		Product product = productRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException("Product not found with ID: " + id));
+				.orElseThrow(() -> new ResourceNotFoundException("Product not found with ID: " + id));
 		return new ProductResponseDTO(product);
 	}
 
@@ -101,7 +102,7 @@ public class ProductService {
 	 */
 	public void delete(Long id) {
 		if (!productRepository.existsById(id)) {
-			throw new EntityNotFoundException("Product not found with ID: " + id);
+			throw new ResourceNotFoundException("Product not found with ID: " + id);
 		}
 		productRepository.deleteById(id);
 	}

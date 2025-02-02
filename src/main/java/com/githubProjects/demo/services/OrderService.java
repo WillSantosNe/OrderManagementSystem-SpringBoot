@@ -69,7 +69,7 @@ public class OrderService {
 	public OrderResponseDTO insert(CreateOrderDTO dto) {
 		// Retrieve user by ID, throw an exception if not found
 		User user = userRepository.findById(dto.getUserId())
-				.orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + dto.getUserId()));
+				.orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + dto.getUserId()));
 
 		// Create a new order and set initial properties
 		Order order = new Order();
@@ -82,7 +82,7 @@ public class OrderService {
 
 			// Retrieve product by ID, throw an exception if not found
 			Product product = productRepository.findById(itemDto.getProductId()).orElseThrow(
-					() -> new EntityNotFoundException("Product not found with ID: " + itemDto.getProductId()));
+					() -> new ResourceNotFoundException("Product not found with ID: " + itemDto.getProductId()));
 
 			// Validate quantity
 			if (itemDto.getQuantity() <= 0) {
@@ -113,7 +113,7 @@ public class OrderService {
 	 */
 	public OrderResponseDTO update(Long id, UpdateOrderDTO dto) {
 		Order order = orderRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException("Order not found with ID: " + id));
+				.orElseThrow(() -> new ResourceNotFoundException("Order not found with ID: " + id));
 
 		if (dto.getStatus() != null) {
 			order.setStatus(dto.getStatus());
@@ -122,7 +122,7 @@ public class OrderService {
 		if (dto.getItems() != null) {
 			List<OrderItem> updatedItems = dto.getItems().stream().map(itemDto -> {
 				Product product = productRepository.findById(itemDto.getProductId()).orElseThrow(
-						() -> new EntityNotFoundException("Product not found with ID: " + itemDto.getProductId()));
+						() -> new ResourceNotFoundException("Product not found with ID: " + itemDto.getProductId()));
 
 				if (itemDto.getQuantity() <= 0) {
 					throw new IllegalArgumentException("Quantity must be greater than zero.");
