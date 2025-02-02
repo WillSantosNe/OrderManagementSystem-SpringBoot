@@ -65,16 +65,21 @@ Demonstrar habilidades em **Java**, **Spring Boot**, **arquitetura em camadas**,
 
 O projeto utiliza o **H2** como banco de dados em memória, facilitando testes sem necessidade de SGBD externo.
 
-**Exemplo de configurações** no `application.properties`:
+**Exemplo de configurações** no `application-test.properties`:
 
 ```properties
+# H2 Connection
 spring.datasource.url=jdbc:h2:mem:testdb
-spring.datasource.driverClassName=org.h2.Driver
 spring.datasource.username=sa
 spring.datasource.password=
-spring.jpa.hibernate.ddl-auto=update
+
+# H2 Client
 spring.h2.console.enabled=true
 spring.h2.console.path=/h2-console
+
+# Show SQL
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
 ```
 
 Para acessar o console do H2, abra `http://localhost:8080/h2-console` e use as credenciais acima.
