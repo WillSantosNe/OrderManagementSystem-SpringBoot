@@ -113,8 +113,6 @@ public class OrderService {
 		
 		return new OrderResponseDTO(updatedOrder);
 	}
-	
-	
 
 	/**
 	 * Calculates the subtotal for an order item.
