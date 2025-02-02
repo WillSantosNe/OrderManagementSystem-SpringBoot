@@ -22,14 +22,6 @@ public class OrderItemPK implements Serializable {
 	@JoinColumn(name = "product_id")
 	private Product product;
 
-	public OrderItemPK() {
-	}
-
-	public OrderItemPK(Order order, Product product) {
-		this.order = order;
-		this.product = product;
-	}
-
 	public Order getOrder() {
 		return order;
 	}
@@ -46,7 +38,6 @@ public class OrderItemPK implements Serializable {
 		this.product = product;
 	}
 
-	// equals() e hashCode() baseados em order e product
 	@Override
 	public int hashCode() {
 		return Objects.hash(order, product);
@@ -56,9 +47,9 @@ public class OrderItemPK implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!(obj instanceof OrderItemPK))
+		if (obj == null || getClass() != obj.getClass())
 			return false;
-		OrderItemPK other = (OrderItemPK) obj;
-		return Objects.equals(order, other.order) && Objects.equals(product, other.product);
+		OrderItemPK that = (OrderItemPK) obj;
+		return Objects.equals(order, that.order) && Objects.equals(product, that.product);
 	}
 }

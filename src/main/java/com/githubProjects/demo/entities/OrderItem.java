@@ -1,11 +1,11 @@
 package com.githubProjects.demo.entities;
 
-import java.util.Objects;
-
 import com.githubProjects.demo.entities.pk.OrderItemPK;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,12 +14,13 @@ public class OrderItem {
 
 	@EmbeddedId
 	private OrderItemPK id = new OrderItemPK();
+
 	private Integer quantity;
 	private Double subtotal;
 
 	public OrderItem() {
 	}
-	
+
 	public OrderItem(Order order, Product product, Integer quantity, Double subtotal) {
 		this.id.setOrder(order);
 		this.id.setProduct(product);
@@ -27,12 +28,24 @@ public class OrderItem {
 		this.subtotal = subtotal;
 	}
 
-	public OrderItemPK getId() {
-		return id;
+	@ManyToOne
+	@JoinColumn(name = "order_id", insertable = false, updatable = false)
+	public Order getOrder() {
+		return id.getOrder();
 	}
 
-	public void setId(OrderItemPK id) {
-		this.id = id;
+	public void setOrder(Order order) {
+		id.setOrder(order);
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "product_id", insertable = false, updatable = false)
+	public Product getProduct() {
+		return id.getProduct();
+	}
+
+	public void setProduct(Product product) {
+		id.setProduct(product);
 	}
 
 	public Integer getQuantity() {
@@ -50,24 +63,4 @@ public class OrderItem {
 	public void setSubtotal(Double subtotal) {
 		this.subtotal = subtotal;
 	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		OrderItem other = (OrderItem) obj;
-		return Objects.equals(id, other.id);
-	}
-	
-	
-
 }

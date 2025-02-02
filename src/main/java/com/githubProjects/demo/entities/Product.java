@@ -1,7 +1,6 @@
 package com.githubProjects.demo.entities;
 
 import java.util.List;
-import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,16 +19,14 @@ public class Product {
 	private String name;
 	private String description;
 	private Double price;
-	
-	@OneToMany(mappedBy = "product")
-    private List<OrderItem> items;
+
+	@OneToMany(mappedBy = "id.product")
+	private List<OrderItem> items;
 
 	public Product() {
-
 	}
 
 	public Product(Long id, String name, String description, Double price) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -68,21 +65,11 @@ public class Product {
 		this.price = price;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
+	public List<OrderItem> getItems() {
+		return items;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Product other = (Product) obj;
-		return Objects.equals(id, other.id);
+	public void setItems(List<OrderItem> items) {
+		this.items = items;
 	}
-
 }
