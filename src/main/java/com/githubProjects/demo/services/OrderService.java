@@ -20,8 +20,6 @@ import com.githubProjects.demo.repositories.OrderRepository;
 import com.githubProjects.demo.repositories.ProductRepository;
 import com.githubProjects.demo.repositories.UserRepository;
 
-import jakarta.persistence.EntityNotFoundException;
-
 @Service
 public class OrderService {
 
@@ -33,31 +31,29 @@ public class OrderService {
 
 	@Autowired
 	private ProductRepository productRepository;
-	
-	
-	
-	 /**
-     * Retrieves an order by ID.
-     *
-     * @param id The ID of the order to retrieve.
-     * @return OrderResponseDTO containing order details.
-     * @throws ResourceNotFoundException if the order is not found.
-     */
-    public OrderResponseDTO findById(Long id) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Order not found with ID: " + id));
-        return new OrderResponseDTO(order);
-    }
 
-    /**
-     * Retrieves all orders.
-     *
-     * @return List of OrderResponseDTO containing all orders.
-     */
-    public List<OrderResponseDTO> findAll() {
-        List<Order> orders = orderRepository.findAll();
-        return orders.stream().map(OrderResponseDTO::new).collect(Collectors.toList());
-    }
+	/**
+	 * Retrieves an order by ID.
+	 *
+	 * @param id The ID of the order to retrieve.
+	 * @return OrderResponseDTO containing order details.
+	 * @throws ResourceNotFoundException if the order is not found.
+	 */
+	public OrderResponseDTO findById(Long id) {
+		Order order = orderRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Order not found with ID: " + id));
+		return new OrderResponseDTO(order);
+	}
+
+	/**
+	 * Retrieves all orders.
+	 *
+	 * @return List of OrderResponseDTO containing all orders.
+	 */
+	public List<OrderResponseDTO> findAll() {
+		List<Order> orders = orderRepository.findAll();
+		return orders.stream().map(OrderResponseDTO::new).collect(Collectors.toList());
+	}
 
 	/**
 	 * Creates a new order.
@@ -136,22 +132,22 @@ public class OrderService {
 		}
 
 		Order updatedOrder = orderRepository.save(order);
-		
+
 		return new OrderResponseDTO(updatedOrder);
 	}
-	
+
 	/**
-     * Deletes an order by ID.
-     *
-     * @param id The ID of the order to delete.
-     * @throws ResourceNotFoundException if the order does not exist.
-     */
-    public void delete(Long id) {
-        if (!orderRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Order not found with ID: " + id);
-        }
-        orderRepository.deleteById(id);
-    }
+	 * Deletes an order by ID.
+	 *
+	 * @param id The ID of the order to delete.
+	 * @throws ResourceNotFoundException if the order does not exist.
+	 */
+	public void delete(Long id) {
+		if (!orderRepository.existsById(id)) {
+			throw new ResourceNotFoundException("Order not found with ID: " + id);
+		}
+		orderRepository.deleteById(id);
+	}
 
 	/**
 	 * Calculates the subtotal for an order item.
@@ -163,6 +159,5 @@ public class OrderService {
 	private Double calculateSubtotal(Product product, Integer quantity) {
 		return product.getPrice() * quantity;
 	}
-	
 
 }

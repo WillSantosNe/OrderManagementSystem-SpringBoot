@@ -54,6 +54,17 @@ public class UserService {
 	 *         name, email).
 	 */
 	public UserResponseDTO insert(CreateUserDTO dto) {
+
+		// Check if the email is already in use
+		if (userRepository.findByEmail(dto.getEmail()).isPresent()) {
+			throw new IllegalArgumentException("Email is already in use: " + dto.getEmail());
+		}
+
+		// Validate that Name and Email fields are not null or empty
+		if (dto.getName() == null || dto.getName().isEmpty() || dto.getEmail() == null || dto.getEmail().isEmpty()) {
+			throw new IllegalArgumentException("Name and Email are required fields.");
+		}
+
 		User user = new User();
 		user.setName(dto.getName());
 		user.setEmail(dto.getEmail());
