@@ -86,7 +86,7 @@ spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
 ```
 
-Para acessar o console do H2, abra `http://localhost:8080/h2-console` e use as credenciais acima.
+- Para acessar o console do H2, abra `http://localhost:8080/h2-console` e use as credenciais acima.
 
 
 ###  Ambiente de Desenvolvimento: Banco de Dados PostgreSQL
