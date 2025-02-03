@@ -9,22 +9,29 @@ import com.githubProjects.demo.entities.Order;
 import com.githubProjects.demo.entities.OrderStatus;
 
 /**
- * Data Transfer Object (DTO) for order response. It encapsulates the necessary
- * information for an order response, including the order ID, user ID, a list of
- * order items, total sum, order status, and order date.
+ * Data Transfer Object (DTO) for order responses. Encapsulates details of an
+ * order, including ID, user ID, order items, total sum, status, and order date.
  */
 public class OrderResponseDTO {
 
-	private Long id; // ID of the Order
+	private Long id; // ID of the order
 	private Long userId; // ID of the user associated with the order
-	private List<OrderItemResponseDTO> items; // List of products and quantities in the order with details
-	private Double total; // Total sum of the items' subtotals
-	private OrderStatus status; // Status of the order, e.g. PENDING, SHIPPED, DELIVERED
+	private List<OrderItemResponseDTO> items; // List of products and quantities with details
+	private Double total; // Total sum of the order
+	private OrderStatus status; // Current status of the order
 	private Instant orderDate; // Date and time when the order was placed
 
+	/**
+	 * Default constructor.
+	 */
 	public OrderResponseDTO() {
 	}
 
+	/**
+	 * Constructs an OrderResponseDTO from an existing Order entity.
+	 *
+	 * @param order The order entity used to populate this DTO.
+	 */
 	public OrderResponseDTO(Order order) {
 		this.id = order.getId();
 		this.userId = order.getUser().getId();

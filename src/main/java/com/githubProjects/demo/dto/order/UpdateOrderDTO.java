@@ -8,22 +8,28 @@ import com.githubProjects.demo.entities.Order;
 import com.githubProjects.demo.entities.OrderStatus;
 
 /**
- * Data Transfer Object (DTO) for updating an order. It encapsulates the
- * necessary information for updating an order, including a list of order items
- * and the order status.
+ * Data Transfer Object (DTO) for updating an order. Encapsulates the necessary
+ * information for updating an order, including order items and order status.
  */
 public class UpdateOrderDTO {
 
 	private List<OrderItemDTO> items; // List of products and quantities in the order
-	private OrderStatus status; // Status of the order, e.g. PENDING, SHIPPED, DELIVERED
+    private OrderStatus status; // Updated status of the order
 
-	public UpdateOrderDTO() {
-	}
+    /**
+     * Default constructor.
+     */
+    public UpdateOrderDTO() {}
 
-	public UpdateOrderDTO(Order order) {
-		this.items = order.getItems().stream().map(x -> new OrderItemDTO(x)).toList();
-		this.status = order.getStatus();
-	}
+    /**
+     * Constructs an UpdateOrderDTO from an existing Order entity.
+     *
+     * @param order The order entity used to populate this DTO.
+     */
+    public UpdateOrderDTO(Order order) {
+        this.items = order.getItems().stream().map(OrderItemDTO::new).toList();
+        this.status = order.getStatus();
+    }
 
 	public List<OrderItemDTO> getItems() {
 		return items;
