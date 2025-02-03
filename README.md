@@ -60,8 +60,12 @@ Demonstrar habilidades em **Java**, **Spring Boot**, **arquitetura em camadas**,
    - Mapeiam endpoints, recebem **DTOs**, chamam os serviços e retornam **JSON**.
 
 ---
+## Banco de Dados
 
-## Banco de Dados H2
+Este projeto foi criado para rodar em diferentes ambientes, utilizando **H2** para testes e **PostgreSQL** para desenvolvimento.
+
+
+### Ambiente de Testes: Banco de Dados H2
 
 O projeto utiliza o **H2** como banco de dados em memória, facilitando testes sem necessidade de SGBD externo.
 
@@ -83,6 +87,25 @@ spring.jpa.properties.hibernate.format_sql=true
 ```
 
 Para acessar o console do H2, abra `http://localhost:8080/h2-console` e use as credenciais acima.
+
+
+###  Ambiente de Desenvolvimento: Banco de Dados PostgreSQL
+
+Durante o desenvolvimento, o projeto utiliza PostgreSQL como banco de dados, permitindo um ambiente mais próximo do que será utilizado em produção.
+
+**Exemplo de configurações** no `application-dev.properties`:
+
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/testpostgreesql
+spring.datasource.username=postgres
+spring.datasource.password=123Will123
+
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+spring.jpa.hibernate.ddl-auto=update
+```
+- Neste ambiente, o Hibernate está configurado para **criar e atualizar** automaticamente as tabelas (`ddl-auto=update`).
+- Certifique-se de que o PostgreSQL está instalado e rodando localmente na porta padrão **5432**, e que o banco **testpostgreesql** já foi criado.
 
 ---
 
